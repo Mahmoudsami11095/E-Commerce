@@ -1,0 +1,31 @@
+<section class="bg-gray-100 py-16 border border-gray-400">
+  <div class="container">
+    <h2 class="text-5xl text-green-800">Products List</h2>
+
+    <input
+      [(ngModel)]="searchTerm"
+      type="text"
+      class="border border-gray-400 p-2 rounded-md"
+      placeholder="Search"
+    />
+
+    <div
+      class="parent mt-10 grid sm-grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6"
+    >
+      @for (product of productList | paginate: { id: 'foo',
+      itemsPerPage:pageDetails.limit , currentPage: pageDetails.currentPage,
+      totalItems: pageDetails.results} | search : searchTerm; track product.id)
+      {
+      <app-card [product]="product"></app-card>
+      }
+    </div>
+    <div class="flex justify-center mt-10">
+      <pagination-controls
+        class="my-pagination"
+        id="foo"
+        (pageChange)="getAllProductsData($event)"
+      >
+      </pagination-controls>
+    </div>
+  </div>
+</section>

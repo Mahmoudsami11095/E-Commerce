@@ -1,0 +1,54 @@
+<div class="relative mb-2">
+  <input
+    [class]="{
+      'border-green-700': control?.valid,
+      'border-red-700': control?.invalid && control?.touched
+    }"
+    [formControl]="control"
+    [type]="typeInput || (flag ? 'password' : 'text')"
+    [id]="idInput"
+    class="main-input peer"
+    placeholder=" "
+  />
+  <label
+    [class]="{
+      'text-green-700': control?.valid,
+      'text-red-700': control?.invalid && control?.touched
+    }"
+    [for]="idInput"
+    class="main-label"
+    >{{ labelInput }}</label
+  >
+
+  @if(idInput == 'password' || idInput == 'rePassword') {
+  <span
+    (click)="flag = !flag"
+    class="absolute top-1/2 end-4 -translate-y-1/2 cursor-pointer"
+  >
+    <i class="fas fa-eye"></i
+  ></span>
+  } @if(control?.errors && control?.touched) {
+  <div
+    class="flex p-4 mb-4 mt-1 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+    role="alert"
+  >
+    <div>
+      <ul class="mt-1.5 list-disc list-inside">
+        @if (control?.hasError('required')) {
+        <li>Input Name is required</li>
+        } @if (control?.hasError('minlength')) {
+        <li>Input should be more than 3 characters</li>
+        } @if (control?.hasError('maxlength')) {
+        <li>Input should be less than 20 characters</li>
+        } @if (control?.hasError('email')) {
+        <li>Please Enter a valid email</li>
+        } @if (control?.hasError('pattern')) {
+        <li><ng-content></ng-content></li>
+        } @if (control?.hasError('mismatch')) {
+        <li>Please Enter the same password</li>
+        }
+      </ul>
+    </div>
+  </div>
+  }
+</div>

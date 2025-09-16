@@ -1,0 +1,53 @@
+<section class="bg-gray-100 py-10">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-semibold text-gray-800 mb-8">Brands</h2>
+
+    @if (isLoading) {
+      <div class="text-center text-gray-600">Loading brands...</div>
+    }
+    @if (!isLoading && errorMessage) {
+      <div class="text-center text-red-600">{{ errorMessage }}</div>
+    }
+
+    @if (!isLoading && !errorMessage) {
+      <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        @for (b of brands; track b._id) {
+          <button (click)="viewBrand(b._id)" class="text-left bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <img [src]="b.image" [alt]="b.name" class="w-full h-32 object-contain p-3" />
+            <div class="p-3">
+              <h3 class="text-sm font-medium text-gray-800 text-center">{{ b.name }}</h3>
+            </div>
+          </button>
+        }
+      </div>
+      @if (!brands?.length) {
+        <div class="text-center text-gray-600 mt-6">No brands found.</div>
+      }
+    }
+  </div>
+  
+</section>
+
+@if (productsLoading) {
+  <section class="bg-white py-10">
+    <div class="container mx-auto px-4 text-center text-gray-600">Loading products...</div>
+  </section>
+}
+@if (!productsLoading && products?.length) {
+  <section class="bg-white py-10">
+    <div class="container mx-auto px-4">
+      <div #brandProducts></div>
+      <h3 class="text-2xl font-semibold text-gray-800 mb-6">Brand Products</h3>
+      <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        @for (p of products; track p.id) {
+          <app-card [product]="p"></app-card>
+        }
+      </div>
+    </div>
+  </section>
+}
+@if (!productsLoading && products && !products.length) {
+  <section class="bg-white py-10">
+    <div class="container mx-auto px-4 text-center text-gray-600">No products for this brand.</div>
+  </section>
+}

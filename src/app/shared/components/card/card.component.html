@@ -1,0 +1,37 @@
+<div class="card bg-white overflow-hidden group/card">
+  <div
+    [routerLink]="['/details', product.slug, product.id]"
+    class="cursor-pointer relative"
+  >
+    <img
+      [src]="product.imageCover"
+      class="w-full rounded-t"
+      [alt]="product.title"
+    />
+    <button 
+      (click)="toggleWishlist($event, product.id)" 
+      class="absolute top-2 right-2 w-8 h-8 bg-white/80 hover:bg-white rounded-full flex items-center justify-center transition-all duration-200 opacity-0 group-hover/card:opacity-100"
+      title="Add to Wishlist"
+    >
+      <i 
+        class="fa-regular fa-heart text-gray-600 hover:text-red-500 transition-colors duration-200"
+        [class.fa-solid]="isInWishlist(product.id)"
+        [class.text-red-500]="isInWishlist(product.id)"
+      ></i>
+    </button>
+    <h3 class="text-sm text-green-700">{{ product.category.name }}</h3>
+    <h4 class="text-lg py-2 text-green-700 line-clamp-1">
+      {{ product.title | titlecase | term : 3 }}...
+    </h4>
+    <div class="flex justify-between items-center">
+      <span>{{ product.price | currency : "GBP" }}EGP</span>
+      <span
+        ><i class="fa-solid fa-star text-yellow-600"></i
+        >{{ product.ratingsAverage }}</span
+      >
+    </div>
+  </div>
+  <button (click)="addProductItemToCart(product.id)" class="btn translate-y-[125%] group-hover/card:translate-y-0">
+    Add to Cart
+  </button>
+</div>

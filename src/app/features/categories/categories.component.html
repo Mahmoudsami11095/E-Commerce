@@ -1,0 +1,75 @@
+<section class="bg-gray-100 py-10">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-semibold text-gray-800 mb-8">Categories</h2>
+
+    <!-- Loading state -->
+    @if (isLoading) {
+      <div class="text-center text-gray-600">Loading categories...</div>
+    }
+
+    <!-- Error state -->
+    @if (!isLoading && errorMessage) {
+      <div class="text-center text-red-600">{{ errorMessage }}</div>
+    }
+
+    <!-- Grid -->
+    @if (!isLoading && !errorMessage) {
+      <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        @for (cat of categories; track cat._id) {
+          <button (click)="viewCategory(cat._id)" class="text-left bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow w-full">
+            <img [src]="cat.image" [alt]="cat.name" class="w-full h-32 object-cover" />
+            <div class="p-3">
+              <h3 class="text-sm font-medium text-gray-800 text-center">{{ cat.name }}</h3>
+            </div>
+          </button>
+        }
+      </div>
+      @if (!categories?.length) {
+        <div class="text-center text-gray-600 mt-6">No categories found.</div>
+      }
+    }
+
+    <!-- Subcategories -->
+    @if (selectedCategoryId && subcategories.length) {
+      <div #subcats></div>
+      <h3 class="text-xl font-semibold text-gray-800 mt-10 mb-4">Subcategories</h3>
+      <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        @for (sub of subcategories; track sub._id) {
+          <button (click)="viewSubcategory(sub._id)" class="bg-white rounded-md border hover:shadow p-3 text-sm text-gray-700">
+            {{ sub.name }}
+          </button>
+        }
+      </div>
+    }
+    @if (selectedCategoryId && !subcategories.length && !subcatsLoading) {
+      <div class="text-center text-gray-600 mt-4">No subcategories for this category.</div>
+    }
+    @if (selectedCategoryId && subcatsLoading) {
+      <div class="text-center text-gray-600 mt-4">Loading subcategories...</div>
+    }
+  </div>
+</section>
+
+<!-- Products list on same page -->
+@if (productsLoading) {
+  <section class="bg-white py-10">
+    <div class="container mx-auto px-4 text-center text-gray-600">Loading products...</div>
+  </section>
+}
+@if (!productsLoading && products?.length) {
+  <section class="bg-white py-10">
+    <div class="container mx-auto px-4">
+      <h3 class="text-2xl font-semibold text-gray-800 mb-6">Products</h3>
+      <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        @for (p of products; track p.id) {
+          <app-card [product]="p"></app-card>
+        }
+      </div>
+    </div>
+  </section>
+}
+@if (!productsLoading && selectedCategoryId && !products?.length) {
+  <section class="bg-white py-10">
+    <div class="container mx-auto px-4 text-center text-gray-600">No products found for this selection.</div>
+  </section>
+}

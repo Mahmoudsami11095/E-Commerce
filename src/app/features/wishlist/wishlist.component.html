@@ -1,0 +1,17 @@
+<section class="py-8">
+  <div class="max-w-screen-xl mx-auto px-4">
+    <h1 class="text-2xl font-semibold text-gray-800 mb-6">My Wishlist</h1>
+    @if (wishlistIds.length === 0) {
+      <div class="text-gray-600">Your saved items will appear here.</div>
+    } @else {
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        @for (product of wishlistProducts; track product.id) {
+          <app-card [product]="product"></app-card>
+        }
+      </div>
+    }
+  </div>
+</section>
+
+
+
